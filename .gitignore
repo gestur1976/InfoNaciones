@@ -57,3 +57,9 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+/.idea
+/.vscode
+.env
+.env.local
+.env.test
+easyadmin.txt
