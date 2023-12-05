@@ -14,7 +14,7 @@ class CapitalCities
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'capitalCities')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'cca3_id', nullable: false)]
     private ?Country $cca3 = null;
 
     #[ORM\Column(length: 255)]

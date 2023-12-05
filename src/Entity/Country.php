@@ -10,25 +10,25 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CountryRepository::class)]
 #[ORM\Table(name: 'country', uniqueConstraints: [
-    new ORM\UniqueConstraint(name: 'unique_cca2', columns: ['cca2']),
-    new ORM\UniqueConstraint(name: 'unique_ccn3', columns: ['ccn3']),
-    new ORM\UniqueConstraint(name: 'unique_cca3', columns: ['cca3'])
+    new ORM\UniqueConstraint(name: 'unique_cca2', columns: ['cca2_id']),
+    new ORM\UniqueConstraint(name: 'unique_ccn3', columns: ['ccn3_id']),
+    new ORM\UniqueConstraint(name: 'unique_cca3', columns: ['cca3_id'])
 ])]
 class Country
-{
+{    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 4, nullable: false, unique: true)]
-    private string $cca2;
+    private string $cca2Id;
 
     #[ORM\Column(length: 4, nullable: false, unique: true)]
-    private int $ccn3;
+    private int $ccn3Id;
 
     #[ORM\Column(length: 4, nullable: false, unique: true)]
-    private string $cca3;
+    private string $cca3Id;
  
     #[ORM\Column(nullable: true)]
     private ?bool $independent = null;
@@ -60,8 +60,8 @@ class Country
     #[ORM\Column(length: 16, nullable: true)]
     private ?string $flag = null;
 
-    #[ORM\Column(type: Types::BIGINT, nullable: true)]
-    private ?string $population = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $population = null;
 
     #[ORM\Column(nullable: true)]
     private ?float $gini = null;
@@ -75,10 +75,10 @@ class Country
     #[ORM\Column(length: 255)]
     private ?string $officialName = null;
 
-    #[ORM\OneToMany(mappedBy: 'cca3', targetEntity: CountryNativeName::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'cca3_id', targetEntity: CountryNativeName::class, orphanRemoval: true)]
     private Collection $countryNativeNames;
 
-    #[ORM\OneToMany(mappedBy: 'cca3', targetEntity: DomainSuffix::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'cca3_id', targetEntity: DomainSuffix::class, orphanRemoval: true)]
     private Collection $domainSuffixes;
 
     #[ORM\ManyToMany(targetEntity: Currency::class, inversedBy: 'countriesWithCurrency')]
@@ -87,14 +87,35 @@ class Country
     #[ORM\Column(length: 4, nullable: true)]
     private ?string $cioc = null;
 
-    #[ORM\OneToMany(mappedBy: 'cca3', targetEntity: CapitalCities::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'cca3_id', targetEntity: CapitalCities::class, orphanRemoval: true)]
     private Collection $capitalCities;
 
-    #[ORM\OneToMany(mappedBy: 'cca3', targetEntity: AltSpellings::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'cca3_id', targetEntity: AltSpellings::class, orphanRemoval: true)]
     private Collection $altSpellings;
 
     #[ORM\ManyToMany(targetEntity: Languages::class, inversedBy: 'countries')]
     private Collection $languages;
+
+    #[ORM\OneToMany(mappedBy: 'cca3_id', targetEntity: Translation::class, orphanRemoval: true)]
+    private Collection $translations;
+    
+    #[ORM\OneToMany(mappedBy: 'cca3_id', targetEntity: Maps::class, orphanRemoval: true)]
+    private Collection $maps;
+
+    #[ORM\ManyToMany(targetEntity: Continent::class, inversedBy: 'countries')]
+    private Collection $continents;
+
+    #[ORM\OneToOne(mappedBy: 'cca3_id', cascade: ['persist', 'remove'])]
+    private ?Flags $flags = null;
+
+    #[ORM\OneToOne(mappedBy: 'cca3_id', cascade: ['persist', 'remove'])]
+    private ?CoatOfArms $coatOfArms = null;
+
+    #[ORM\Column]
+    private ?string $startOfWeek = null;
+
+    #[ORM\OneToMany(mappedBy: 'cca3_id', targetEntity: CountryBorder::class)]
+    private Collection $countryBorders;
 
     public function __construct()
     {
@@ -104,6 +125,10 @@ class Country
         $this->capitalCities = new ArrayCollection();
         $this->altSpellings = new ArrayCollection();
         $this->languages = new ArrayCollection();
+        $this->translations = new ArrayCollection();
+        $this->maps = new ArrayCollection();
+        $this->continents = new ArrayCollection();
+        $this->countryBorders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -111,38 +136,38 @@ class Country
         return $this->id;
     }
 
-    public function getCca2(): string
+    public function getCca2Id(): string
     {
-        return $this->cca2;
+        return $this->cca2Id;
     }
 
-    public function setCca2(string $cca2): static
+    public function setCca2Id(string $cca2Id): static
     {
-        $this->cca2 = $cca2;
+        $this->cca2Id = $cca2Id;
 
         return $this;
     }
 
-    public function getCcn3(): int
+    public function getCcn3Id(): int
     {
-        return $this->ccn3;
+        return $this->ccn3Id;
     }
 
-    public function setCcn3(int $ccn3): static
+    public function setCcn3Id(int $ccn3Id): static
     {
-        $this->ccn3 = $ccn3;
+        $this->ccn3Id = $ccn3Id;
 
         return $this;
     }
 
-    public function getCca3(): string
+    public function getCca3Id(): string
     {
-        return $this->cca3;
+        return $this->cca3Id;
     }
 
-    public function setCca3(string $cca3): static
+    public function setCca3Id(string $cca3Id): static
     {
-        $this->cca3 = $cca3;
+        $this->cca3Id = $cca3Id;
 
         return $this;
     }
@@ -255,24 +280,24 @@ class Country
         return $this;
     }
 
-    public function getFlag(): ?string
+    public function getFlagUTF8(): ?string
     {
         return $this->flag;
     }
 
-    public function setFlag(?string $flag): static
+    public function setFlagUTF8(string $flag): static
     {
         $this->flag = $flag;
 
         return $this;
     }
 
-    public function getPopulation(): ?string
+    public function getPopulation(): ?int
     {
         return $this->population;
     }
 
-    public function setPopulation(?string $population): static
+    public function setPopulation(int $population): static
     {
         $this->population = $population;
 
@@ -284,7 +309,7 @@ class Country
         return $this->gini;
     }
 
-    public function setGini(?float $gini): static
+    public function setGini(float $gini): static
     {
         $this->gini = $gini;
 
@@ -296,7 +321,7 @@ class Country
         return $this->fifa;
     }
 
-    public function setFifa(?string $fifa): static
+    public function setFifa(string $fifa): static
     {
         $this->fifa = $fifa;
 
@@ -503,6 +528,166 @@ class Country
     public function removeLanguage(Languages $language): static
     {
         $this->languages->removeElement($language);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Translation>
+     */
+    public function getTranslations(): Collection
+    {
+        return $this->translations;
+    }
+
+    public function addTranslation(Translation $translation): static
+    {
+        if (!$this->translations->contains($translation)) {
+            $this->translations->add($translation);
+            $translation->setCca3($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTranslation(Translation $translation): static
+    {
+        if ($this->translations->removeElement($translation)) {
+            // set the owning side to null (unless already changed)
+            if ($translation->getCca3() === $this) {
+                $translation->setCca3(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Maps>
+     */
+    public function getMaps(): Collection
+    {
+        return $this->maps;
+    }
+
+    public function addMap(Maps $map): static
+    {
+        if (!$this->maps->contains($map)) {
+            $this->maps->add($map);
+            $map->setCca3($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMap(Maps $map): static
+    {
+        if ($this->maps->removeElement($map)) {
+            // set the owning side to null (unless already changed)
+            if ($map->getCca3() === $this) {
+                $map->setCca3(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Continent>
+     */
+    public function getContinents(): Collection
+    {
+        return $this->continents;
+    }
+
+    public function addContinent(Continent $continent): static
+    {
+        if (!$this->continents->contains($continent)) {
+            $this->continents->add($continent);
+        }
+
+        return $this;
+    }
+
+    public function removeContinent(Continent $continent): static
+    {
+        $this->continents->removeElement($continent);
+
+        return $this;
+    }
+
+    public function getFlags(): ?Flags
+    {
+        return $this->flags;
+    }
+
+    public function setFlags(Flags $flags): static
+    {
+        // set the owning side of the relation if necessary
+        if ($flags->getCca3() !== $this) {
+            $flags->setCca3($this);
+        }
+
+        $this->flags = $flags;
+
+        return $this;
+    }
+
+    public function getCoatOfArms(): ?CoatOfArms
+    {
+        return $this->coatOfArms;
+    }
+
+    public function setCoatOfArms(CoatOfArms $coatOfArms): static
+    {
+        // set the owning side of the relation if necessary
+        if ($coatOfArms->getCca3() !== $this) {
+            $coatOfArms->setCca3($this);
+        }
+
+        $this->coatOfArms = $coatOfArms;
+
+        return $this;
+    }
+
+    public function getStartOfWeek(): string
+    {
+        return $this->startOfWeek;
+    }
+
+    public function setStartOfWeek(string $startOfWeek): static
+    {
+       $this->startOfWeek = $startOfWeek;
+
+       return $this;
+    }
+
+    /**
+     * @return Collection<int, CountryBorder>
+     */
+    public function getCountryBorders(): Collection
+    {
+        return $this->countryBorders;
+    }
+
+    public function addCountryBorder(CountryBorder $countryBorder): static
+    {
+        if (!$this->countryBorders->contains($countryBorder)) {
+            $this->countryBorders->add($countryBorder);
+            $countryBorder->setCountry($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCountryBorder(CountryBorder $countryBorder): static
+    {
+        if ($this->countryBorders->removeElement($countryBorder)) {
+            // set the owning side to null (unless already changed)
+            if ($countryBorder->getCountry() === $this) {
+                $countryBorder->setCountry(null);
+            }
+        }
 
         return $this;
     }
