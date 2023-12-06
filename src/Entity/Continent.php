@@ -18,7 +18,7 @@ class Continent
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: Country::class, mappedBy: 'continents')]
+    #[ORM\ManyToMany(targetEntity: Country::class, inversedBy: 'continents')]
     private Collection $countries;
 
     public function __construct()
@@ -55,7 +55,6 @@ class Continent
     {
         if (!$this->countries->contains($country)) {
             $this->countries->add($country);
-            $country->addContinent($this);
         }
 
         return $this;
@@ -63,9 +62,7 @@ class Continent
 
     public function removeCountry(Country $country): static
     {
-        if ($this->countries->removeElement($country)) {
-            $country->removeContinent($this);
-        }
+        $this->countries->removeElement($country);
 
         return $this;
     }

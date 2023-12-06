@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Country{% endblock %}
+
+{% block body %}
+    <h1>Country</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ country.id }}</td>
+            </tr>
+            <tr>
+                <th>Cca2Id</th>
+                <td>{{ country.cca2Id }}</td>
+            </tr>
+            <tr>
+                <th>Ccn3Id</th>
+                <td>{{ country.ccn3Id }}</td>
+            </tr>
+            <tr>
+                <th>Cca3Id</th>
+                <td>{{ country.cca3Id }}</td>
+            </tr>
+            <tr>
+                <th>Independent</th>
+                <td>{{ country.independent ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ country.status }}</td>
+            </tr>
+            <tr>
+                <th>UnMember</th>
+                <td>{{ country.unMember ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Region</th>
+                <td>{{ country.region }}</td>
+            </tr>
+            <tr>
+                <th>Subregion</th>
+                <td>{{ country.subregion }}</td>
+            </tr>
+            <tr>
+                <th>Latitude</th>
+                <td>{{ country.latitude }}</td>
+            </tr>
+            <tr>
+                <th>Longitude</th>
+                <td>{{ country.longitude }}</td>
+            </tr>
+            <tr>
+                <th>Landlocked</th>
+                <td>{{ country.landlocked ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Area</th>
+                <td>{{ country.area }}</td>
+            </tr>
+            <tr>
+                <th>Flag</th>
+                <td>{{ country.flag }}</td>
+            </tr>
+            <tr>
+                <th>Population</th>
+                <td>{{ country.population }}</td>
+            </tr>
+            <tr>
+                <th>Gini</th>
+                <td>{{ country.gini }}</td>
+            </tr>
+            <tr>
+                <th>Fifa</th>
+                <td>{{ country.fifa }}</td>
+            </tr>
+            <tr>
+                <th>CommonName</th>
+                <td>{{ country.commonName }}</td>
+            </tr>
+            <tr>
+                <th>OfficialName</th>
+                <td>{{ country.officialName }}</td>
+            </tr>
+            <tr>
+                <th>Cioc</th>
+                <td>{{ country.cioc }}</td>
+            </tr>
+            <tr>
+                <th>StartOfWeek</th>
+                <td>{{ country.startOfWeek }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_country_index') }}">back to list</a>
+
+    <a href="{{ path('app_country_edit', {'id': country.id}) }}">edit</a>
+
+    {{ include('country/_delete_form.html.twig') }}
+{% endblock %}

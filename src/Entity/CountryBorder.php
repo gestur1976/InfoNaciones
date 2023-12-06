@@ -13,60 +13,38 @@ class CountryBorder
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(name: "cca3_id_one", referencedColumnName: "cca3_id")]
-    private ?Country $firstCountry = null;
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(name: "cca3_id_two", referencedColumnName: "cca3_id")]
-    private ?Country $secondCountry = null;
-
+    #[ORM\ManyToOne(inversedBy: 'countryBorders')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Country $country = null;
-    
-    public function __construct(Country $firstCountry, Country $secondCountry)
-    {
-        $this->firstCountry = $firstCountry;
-        $this->secondCountry = $secondCountry;
-    }
+    private ?country $country = null;
+
+    #[ORM\Column(length: 4)]
+    private ?string $foreignCountryCca3 = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFirstCountry(): ?Country
-    {
-        return $this->firstCountry;
-    }
-
-    public function setFirstCountry(Country $firstCountry): static
-    {
-        $this->firstCountry = $firstCountry;
-
-        return $this;
-    }
-
-    public function getSecondCountry(): ?Country
-    {
-        return $this->secondCountry;
-    }
-
-    public function setSecondCountry(Country $secondCountry): static
-    {
-        $this->secondCountry = $secondCountry;
-
-        return $this;
-    }
-
-    public function getCountry(): ?Country
+    public function getCountry(): ?country
     {
         return $this->country;
     }
 
-    public function setCountry(?Country $country): static
+    public function setCountry(?country $country): static
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    public function getForeignCountryCca3(): ?string
+    {
+        return $this->foreignCountryCca3;
+    }
+
+    public function setForeignCountryCca3(string $foreignCountryCca3): static
+    {
+        $this->foreignCountryCca3 = $foreignCountryCca3;
 
         return $this;
     }

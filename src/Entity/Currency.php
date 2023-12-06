@@ -16,7 +16,7 @@ class Currency
     private ?int $id = null;
 
     #[ORM\Column(length: 4)]
-    private ?string $code = null;
+    private ?string $currencyCode = null;
 
     #[ORM\Column(length: 255)]
     private ?string $currencyName = null;
@@ -24,12 +24,12 @@ class Currency
     #[ORM\Column(length: 4)]
     private ?string $symbol = null;
 
-    #[ORM\ManyToMany(targetEntity: Country::class, mappedBy: 'currencies')]
-    private Collection $countriesWithCurrency;
+    #[ORM\ManyToMany(targetEntity: Country::class, inversedBy: 'currencies')]
+    private Collection $countries;
 
     public function __construct()
     {
-        $this->countriesWithCurrency = new ArrayCollection();
+        $this->countries = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -37,14 +37,14 @@ class Currency
         return $this->id;
     }
 
-    public function getCode(): ?string
+    public function getCurrencyCode(): ?string
     {
-        return $this->code;
+        return $this->currencyCode;
     }
 
-    public function setCode(string $code): static
+    public function setCode(string $currencyCode): static
     {
-        $this->code = $code;
+        $this->currencyCode = $currencyCode;
 
         return $this;
     }
@@ -76,26 +76,23 @@ class Currency
     /**
      * @return Collection<int, Country>
      */
-    public function getCountriesWithCurrency(): Collection
+    public function getCountries(): Collection
     {
-        return $this->countriesWithCurrency;
+        return $this->countries;
     }
 
-    public function addCountriesWithCurrency(Country $countriesWithCurrency): static
+    public function addCountry(Country $country): static
     {
-        if (!$this->countriesWithCurrency->contains($countriesWithCurrency)) {
-            $this->countriesWithCurrency->add($countriesWithCurrency);
-            $countriesWithCurrency->addCurrency($this);
+        if (!$this->countries->contains($country)) {
+            $this->countries->add($country);
         }
 
         return $this;
     }
 
-    public function removeCountriesWithCurrency(Country $countriesWithCurrency): static
+    public function removeCountry(Country $country): static
     {
-        if ($this->countriesWithCurrency->removeElement($countriesWithCurrency)) {
-            $countriesWithCurrency->removeCurrency($this);
-        }
+        $this->countries->removeElement($country);
 
         return $this;
     }

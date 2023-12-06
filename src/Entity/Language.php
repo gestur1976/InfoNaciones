@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\LanguagesRepository;
+use App\Repository\LanguageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: LanguagesRepository::class)]
-class Languages
+#[ORM\Entity(repositoryClass: LanguageRepository::class)]
+class Language
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -20,15 +20,15 @@ class Languages
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-    
-    #[ORM\ManyToMany(targetEntity: Country::class, mappedBy: 'languages')]
+
+    #[ORM\ManyToMany(targetEntity: Country::class, inversedBy: 'languages')]
     private Collection $countries;
 
     public function __construct()
     {
         $this->countries = new ArrayCollection();
     }
-
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -70,7 +70,6 @@ class Languages
     {
         if (!$this->countries->contains($country)) {
             $this->countries->add($country);
-            $country->addLanguage($this);
         }
 
         return $this;
@@ -78,9 +77,7 @@ class Languages
 
     public function removeCountry(Country $country): static
     {
-        if ($this->countries->removeElement($country)) {
-            $country->removeLanguage($this);
-        }
+        $this->countries->removeElement($country);
 
         return $this;
     }

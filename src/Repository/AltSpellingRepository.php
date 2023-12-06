@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\AltSpellings;
+use App\Entity\AltSpelling;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<AltSpellings>
+ * @extends ServiceEntityRepository<AltSpelling>
  *
- * @method AltSpellings|null find($id, $lockMode = null, $lockVersion = null)
- * @method AltSpellings|null findOneBy(array $criteria, array $orderBy = null)
- * @method AltSpellings[]    findAll()
- * @method AltSpellings[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method AltSpelling|null find($id, $lockMode = null, $lockVersion = null)
+ * @method AltSpelling|null findOneBy(array $criteria, array $orderBy = null)
+ * @method AltSpelling[]    findAll()
+ * @method AltSpelling[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AltSpellingsRepository extends ServiceEntityRepository
+class AltSpellingRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, AltSpellings::class);
+        parent::__construct($registry, AltSpelling::class);
     }
 
 //    /**
-//     * @return AltSpellings[] Returns an array of AltSpellings objects
+//     * @return AltSpelling[] Returns an array of AltSpelling objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class AltSpellingsRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?AltSpellings
+//    public function findOneBySomeField($value): ?AltSpelling
 //    {
 //        return $this->createQueryBuilder('a')
 //            ->andWhere('a.exampleField = :val')

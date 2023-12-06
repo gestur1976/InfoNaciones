@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Country index{% endblock %}
+
+{% block body %}
+    <h1>Country index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Cca2Id</th>
+                <th>Ccn3Id</th>
+                <th>Cca3Id</th>
+                <th>Independent</th>
+                <th>Status</th>
+                <th>UnMember</th>
+                <th>Region</th>
+                <th>Subregion</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Landlocked</th>
+                <th>Area</th>
+                <th>Flag</th>
+                <th>Population</th>
+                <th>Gini</th>
+                <th>Fifa</th>
+                <th>CommonName</th>
+                <th>OfficialName</th>
+                <th>Cioc</th>
+                <th>StartOfWeek</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for country in countries %}
+            <tr>
+                <td>{{ country.id }}</td>
+                <td>{{ country.cca2Id }}</td>
+                <td>{{ country.ccn3Id }}</td>
+                <td>{{ country.cca3Id }}</td>
+                <td>{{ country.independent ? 'Yes' : 'No' }}</td>
+                <td>{{ country.status }}</td>
+                <td>{{ country.unMember ? 'Yes' : 'No' }}</td>
+                <td>{{ country.region }}</td>
+                <td>{{ country.subregion }}</td>
+                <td>{{ country.latitude }}</td>
+                <td>{{ country.longitude }}</td>
+                <td>{{ country.landlocked ? 'Yes' : 'No' }}</td>
+                <td>{{ country.area }}</td>
+                <td>{{ country.flag }}</td>
+                <td>{{ country.population }}</td>
+                <td>{{ country.gini }}</td>
+                <td>{{ country.fifa }}</td>
+                <td>{{ country.commonName }}</td>
+                <td>{{ country.officialName }}</td>
+                <td>{{ country.cioc }}</td>
+                <td>{{ country.startOfWeek }}</td>
+                <td>
+                    <a href="{{ path('app_country_show', {'id': country.id}) }}">show</a>
+                    <a href="{{ path('app_country_edit', {'id': country.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="22">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_country_new') }}">Create new</a>
+{% endblock %}

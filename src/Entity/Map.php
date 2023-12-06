@@ -2,20 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\MapsRepository;
+use App\Repository\MapRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: MapsRepository::class)]
-class Maps
+#[ORM\Entity(repositoryClass: MapRepository::class)]
+class Map
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\ManyToOne(inversedBy: 'maps')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Country $cca3 = null;
 
     #[ORM\Column(length: 255)]
     private ?string $provider = null;
@@ -23,21 +19,13 @@ class Maps
     #[ORM\Column(length: 255)]
     private ?string $URL = null;
 
+    #[ORM\ManyToOne(inversedBy: 'maps')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Country $country = null;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCca3(): ?Country
-    {
-        return $this->cca3;
-    }
-
-    public function setCca3(?Country $cca3): static
-    {
-        $this->cca3 = $cca3;
-
-        return $this;
     }
 
     public function getProvider(): ?string
@@ -60,6 +48,18 @@ class Maps
     public function setURL(string $URL): static
     {
         $this->URL = $URL;
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): static
+    {
+        $this->country = $country;
 
         return $this;
     }

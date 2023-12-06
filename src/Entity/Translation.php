@@ -13,10 +13,6 @@ class Translation
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'translations')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Country $cca3 = null;
-
     #[ORM\Column(length: 4)]
     private ?string $langCode = null;
 
@@ -26,21 +22,13 @@ class Translation
     #[ORM\Column(length: 255)]
     private ?string $common = null;
 
+    #[ORM\ManyToOne(inversedBy: 'translations')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Country $country = null;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCca3(): ?Country
-    {
-        return $this->cca3;
-    }
-
-    public function setCca3(?Country $cca3): static
-    {
-        $this->cca3 = $cca3;
-
-        return $this;
     }
 
     public function getLangCode(): ?string
@@ -75,6 +63,18 @@ class Translation
     public function setCommon(string $common): static
     {
         $this->common = $common;
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): static
+    {
+        $this->country = $country;
 
         return $this;
     }

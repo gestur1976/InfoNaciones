@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\CoatOfArms;
+use App\Entity\CapitalCity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<CoatOfArms>
+ * @extends ServiceEntityRepository<CapitalCity>
  *
- * @method CoatOfArms|null find($id, $lockMode = null, $lockVersion = null)
- * @method CoatOfArms|null findOneBy(array $criteria, array $orderBy = null)
- * @method CoatOfArms[]    findAll()
- * @method CoatOfArms[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CapitalCity|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CapitalCity|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CapitalCity[]    findAll()
+ * @method CapitalCity[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CoatOfArmsRepository extends ServiceEntityRepository
+class CapitalCityRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, CoatOfArms::class);
+        parent::__construct($registry, CapitalCity::class);
     }
 
 //    /**
-//     * @return CoatOfArms[] Returns an array of CoatOfArms objects
+//     * @return CapitalCity[] Returns an array of CapitalCity objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class CoatOfArmsRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?CoatOfArms
+//    public function findOneBySomeField($value): ?CapitalCity
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')
