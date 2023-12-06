@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\AltSpellingRepository;
+use App\Repository\TimeZoneRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: AltSpellingRepository::class)]
-class AltSpelling
+#[ORM\Entity(repositoryClass: TimeZoneRepository::class)]
+class TimeZone
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    #[ORM\Column(length: 10)]
+    private ?string $UTCOffset = null;
 
-    #[ORM\ManyToOne(inversedBy: 'altSpellings')]
+    #[ORM\ManyToOne(inversedBy: 'timeZones')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Country $country = null;
 
@@ -27,14 +27,14 @@ class AltSpelling
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getUTCOffset(): ?string
     {
-        return $this->name;
+        return $this->UTCOffset;
     }
 
-    public function setName(string $name): static
+    public function setUTCOffset(string $UTCOffset): static
     {
-        $this->name = $name;
+        $this->UTCOffset = $UTCOffset;
 
         return $this;
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\CountryRepository;
@@ -129,6 +131,21 @@ class Country
     #[ORM\OneToMany(mappedBy: 'country', targetEntity: Map::class, orphanRemoval: true)]
     private Collection $maps;
 
+    #[ORM\OneToMany(mappedBy: 'country', targetEntity: TimeZone::class, orphanRemoval: true)]
+    private Collection $timeZones;
+
+    #[ORM\ManyToOne(inversedBy: 'countries')]
+    private ?User $createdBy = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $dateCreated = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $dateModified = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateDeleted = null;
+
     public function __construct()
     {
         $this->currencies = new ArrayCollection();
@@ -139,6 +156,7 @@ class Country
         $this->capitalCities = new ArrayCollection();
         $this->translations = new ArrayCollection();
         $this->maps = new ArrayCollection();
+        $this->timeZones = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -290,12 +308,12 @@ class Country
         return $this;
     }
 
-    public function getFlagUTF8(): ?string
+    public function getFlag(): ?string
     {
         return $this->flag;
     }
 
-    public function setFlagUTF8(string $flag): static
+    public function setFlag(string $flag): static
     {
         $this->flag = $flag;
 
@@ -709,6 +727,84 @@ class Country
                 $map->setCountry(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TimeZone>
+     */
+    public function getTimeZones(): Collection
+    {
+        return $this->timeZones;
+    }
+
+    public function addTimeZone(TimeZone $timeZone): static
+    {
+        if (!$this->timeZones->contains($timeZone)) {
+            $this->timeZones->add($timeZone);
+            $timeZone->setCountry($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTimeZone(TimeZone $timeZone): static
+    {
+        if ($this->timeZones->removeElement($timeZone)) {
+            // set the owning side to null (unless already changed)
+            if ($timeZone->getCountry() === $this) {
+                $timeZone->setCountry(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): static
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getDateCreated(): ?\DateTimeInterface
+    {
+        return $this->dateCreated;
+    }
+
+    public function setDateCreated(\DateTimeInterface $dateCreated): static
+    {
+        $this->dateCreated = $dateCreated;
+
+        return $this;
+    }
+
+    public function getDateModified(): ?\DateTimeInterface
+    {
+        return $this->dateModified;
+    }
+
+    public function setDateModified(\DateTimeInterface $dateModified): static
+    {
+        $this->dateModified = $dateModified;
+
+        return $this;
+    }
+
+    public function getDateDeleted(): ?\DateTimeInterface
+    {
+        return $this->dateDeleted;
+    }
+
+    public function setDateDeleted(?\DateTimeInterface $dateDeleted): static
+    {
+        $this->dateDeleted = $dateDeleted;
 
         return $this;
     }

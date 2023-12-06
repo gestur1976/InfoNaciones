@@ -1,14 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
+#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -30,6 +36,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
+
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Country::class)]
+    private Collection $countries;
+
+    public function __construct()
+    {
+        $this->countries = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -109,6 +123,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTitle(?string $title): static
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Country>
+     */
+    public function getCountries(): Collection
+    {
+        return $this->countries;
+    }
+
+    public function addCountry(Country $country): static
+    {
+        if (!$this->countries->contains($country)) {
+            $this->countries->add($country);
+            $country->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCountry(Country $country): static
+    {
+        if ($this->countries->removeElement($country)) {
+            // set the owning side to null (unless already changed)
+            if ($country->getCreatedBy() === $this) {
+                $country->setCreatedBy(null);
+            }
+        }
 
         return $this;
     }

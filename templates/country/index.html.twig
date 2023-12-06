@@ -29,6 +29,14 @@
                 <th>OfficialName</th>
                 <th>Cioc</th>
                 <th>StartOfWeek</th>
+                <th>TrafficDirection</th>
+                <th>FlagImage</th>
+                <th>FlagVector</th>
+                <th>CoatOfArmsImage</th>
+                <th>CoatOfArmsVector</th>
+                <th>NativeCommonName</th>
+                <th>NativeOfficialName</th>
+                <th>Tld</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -56,6 +64,14 @@
                 <td>{{ country.officialName }}</td>
                 <td>{{ country.cioc }}</td>
                 <td>{{ country.startOfWeek }}</td>
+                <td>{{ country.trafficDirection }}</td>
+                <td>{{ country.flagImage }}</td>
+                <td>{{ country.flagVector }}</td>
+                <td>{{ country.coatOfArmsImage }}</td>
+                <td>{{ country.coatOfArmsVector }}</td>
+                <td>{{ country.nativeCommonName }}</td>
+                <td>{{ country.nativeOfficialName }}</td>
+                <td>{{ country.tld }}</td>
                 <td>
                     <a href="{{ path('app_country_show', {'id': country.id}) }}">show</a>
                     <a href="{{ path('app_country_edit', {'id': country.id}) }}">edit</a>
@@ -63,7 +79,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="22">no records found</td>
+                <td colspan="30">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

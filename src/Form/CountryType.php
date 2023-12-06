@@ -1,13 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
-use App\Entity\CoatOfArms;
 use App\Entity\Continent;
 use App\Entity\Country;
 use App\Entity\Currency;
-use App\Entity\Flags;
-use App\Entity\Languages;
+use App\Entity\Language;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -38,13 +38,16 @@ class CountryType extends AbstractType
             ->add('officialName')
             ->add('cioc')
             ->add('startOfWeek')
+            ->add('trafficDirection')
+            ->add('flagImage')
+            ->add('flagVector')
+            ->add('coatOfArmsImage')
+            ->add('coatOfArmsVector')
+            ->add('nativeCommonName')
+            ->add('nativeOfficialName')
+            ->add('tld')
             ->add('currencies', EntityType::class, [
                 'class' => Currency::class,
-'choice_label' => 'id',
-'multiple' => true,
-            ])
-            ->add('languages', EntityType::class, [
-                'class' => Languages::class,
 'choice_label' => 'id',
 'multiple' => true,
             ])
@@ -53,13 +56,10 @@ class CountryType extends AbstractType
 'choice_label' => 'id',
 'multiple' => true,
             ])
-            ->add('flags', EntityType::class, [
-                'class' => Flags::class,
+            ->add('languages', EntityType::class, [
+                'class' => Language::class,
 'choice_label' => 'id',
-            ])
-            ->add('coatOfArms', EntityType::class, [
-                'class' => CoatOfArms::class,
-'choice_label' => 'id',
+'multiple' => true,
             ])
         ;
     }
