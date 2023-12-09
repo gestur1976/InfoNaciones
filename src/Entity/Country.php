@@ -146,6 +146,9 @@ class Country
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateDeleted = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $flagAltText = null;
+
     public function __construct()
     {
         $this->currencies = new ArrayCollection();
@@ -805,6 +808,18 @@ class Country
     public function setDateDeleted(?\DateTimeInterface $dateDeleted): static
     {
         $this->dateDeleted = $dateDeleted;
+
+        return $this;
+    }
+
+    public function getFlagAltText(): ?string
+    {
+        return $this->flagAltText;
+    }
+
+    public function setFlagAltText(?string $flagAltText): static
+    {
+        $this->flagAltText = $flagAltText;
 
         return $this;
     }

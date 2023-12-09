@@ -15,11 +15,16 @@ class CountryInfoService
         $this->client = $client;
     }
 
-    public function getByFieldName(string $fieldName, string $value): ?array
+    public function findAll():?array
     {
         $response = $this->client->request(
             'GET',
-            "https://restcountries.com/v3.1/{$fieldName}/{$value}"
+            "https://restcountries.com/v3.1/all",
+            [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                ],
+            ]
         );
 
         if ($response->getStatusCode() !== 200) {
@@ -28,6 +33,35 @@ class CountryInfoService
 
         $data = $response->toArray();
 
-        return empty($data) ? null : $data;
+        if (empty($data)) {
+            return null;
+        }
+
+        return $data;
+    }
+
+    public function findByName(string $countryName):?array
+    {
+        $response = $this->client->request(
+            'GET',
+            "https://restcountries.com/v3.1/country/{$countryName}",
+            [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                ],
+            ]
+        );
+
+        if ($response->getStatusCode() !== 200) {
+            return null;
+        }
+
+        $data = $response->toArray();
+
+        if (empty($data)) {
+            return null;
+        }
+
+        return $data;
     }
 }
