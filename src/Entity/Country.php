@@ -13,7 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CountryRepository::class)]
 #[ORM\Table(name: 'country', uniqueConstraints: [
     new ORM\UniqueConstraint(name: 'unique_cca2', columns: ['cca2_id']),
-    new ORM\UniqueConstraint(name: 'unique_ccn3', columns: ['ccn3_id']),
     new ORM\UniqueConstraint(name: 'unique_cca3', columns: ['cca3_id'])
 ])]
 class Country
@@ -26,7 +25,7 @@ class Country
     #[ORM\Column(length: 4, nullable: true, unique: true)]
     private ?string $cca2Id;
 
-    #[ORM\Column(length: 4, nullable: true, unique: true)]
+    #[ORM\Column(length: 4, nullable: true)]
     private ?int $ccn3Id;
 
     #[ORM\Column(length: 4, nullable: true, unique: true)]
@@ -98,12 +97,6 @@ class Country
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $coatOfArmsVector = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $nativeCommonName = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $nativeOfficialName = null;
-
     #[ORM\Column(length: 64, nullable: true)]
     private ?string $tld = null;
 
@@ -134,19 +127,13 @@ class Country
     #[ORM\OneToMany(mappedBy: 'country', targetEntity: TimeZone::class, orphanRemoval: true)]
     private Collection $timeZones;
 
-    #[ORM\ManyToOne(inversedBy: 'countries')]
-    private ?User $createdBy = null;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateCreated = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateModified = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateDeleted = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $flagAltText = null;
 
     public function __construct()
@@ -172,19 +159,19 @@ class Country
         return $this->cca2Id;
     }
 
-    public function setCca2Id(string $cca2Id): static
+    public function setCca2Id(?string $cca2Id): static
     {
         $this->cca2Id = $cca2Id;
 
         return $this;
     }
 
-    public function getCcn3Id(): int
+    public function getCcn3Id(): ?int
     {
         return $this->ccn3Id;
     }
 
-    public function setCcn3Id(int $ccn3Id): static
+    public function setCcn3Id(?int $ccn3Id): static
     {
         $this->ccn3Id = $ccn3Id;
 
@@ -196,7 +183,7 @@ class Country
         return $this->cca3Id;
     }
 
-    public function setCca3Id(string $cca3Id): static
+    public function setCca3Id(?string $cca3Id): static
     {
         $this->cca3Id = $cca3Id;
 
@@ -328,7 +315,7 @@ class Country
         return $this->population;
     }
 
-    public function setPopulation(int $population): static
+    public function setPopulation(?int $population): static
     {
         $this->population = $population;
 
@@ -340,7 +327,7 @@ class Country
         return $this->gini;
     }
 
-    public function setGini(float $gini): static
+    public function setGini(?float $gini): static
     {
         $this->gini = $gini;
 
@@ -352,7 +339,7 @@ class Country
         return $this->fifa;
     }
 
-    public function setFifa(string $fifa): static
+    public function setFifa(?string $fifa): static
     {
         $this->fifa = $fifa;
 
@@ -364,7 +351,7 @@ class Country
         return $this->commonName;
     }
 
-    public function setCommonName(string $commonName): static
+    public function setCommonName(?string $commonName): static
     {
         $this->commonName = $commonName;
 
@@ -376,7 +363,7 @@ class Country
         return $this->officialName;
     }
 
-    public function setOfficialName(string $officialName): static
+    public function setOfficialName(?string $officialName): static
     {
         $this->officialName = $officialName;
 
@@ -400,7 +387,7 @@ class Country
         return $this->startOfWeek;
     }
 
-    public function setStartOfWeek(string $startOfWeek): static
+    public function setStartOfWeek(?string $startOfWeek): static
     {
        $this->startOfWeek = $startOfWeek;
 
@@ -424,7 +411,7 @@ class Country
         return $this->flagImage;
     }
 
-    public function setFlagImage(string $flagImage): static
+    public function setFlagImage(?string $flagImage): static
     {
         $this->flagImage = $flagImage;
 
@@ -463,30 +450,6 @@ class Country
     public function setCoatOfArmsVector(?string $coatOfArmsVector): static
     {
         $this->coatOfArmsVector = $coatOfArmsVector;
-
-        return $this;
-    }
-
-    public function getNativeCommonName(): ?string
-    {
-        return $this->nativeCommonName;
-    }
-
-    public function setNativeCommonName(?string $nativeCommonName): static
-    {
-        $this->nativeCommonName = $nativeCommonName;
-
-        return $this;
-    }
-
-    public function getNativeOfficialName(): ?string
-    {
-        return $this->nativeOfficialName;
-    }
-
-    public function setNativeOfficialName(?string $nativeOfficialName): static
-    {
-        $this->nativeOfficialName = $nativeOfficialName;
 
         return $this;
     }
@@ -823,4 +786,4 @@ class Country
 
         return $this;
     }
-}
+ }

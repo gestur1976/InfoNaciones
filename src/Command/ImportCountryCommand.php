@@ -44,24 +44,24 @@ class ImportCountryCommand extends Command
         $this
             ->setDescription('Este comando te permite importar o actualizar un país existente por nombre o por '.
                 'código de país (cca2, cca3, ccn3) desde la API de restcountries.com. Para sincronizar la lista completa de países '.
-                'usa el parámetro "all" como valor para el parámetro "nombre".')
-            ->addOption('nombre', null, InputOption::VALUE_OPTIONAL, 'Nombre del país o "todo"')
-            ->addOption('codigo', null, InputOption::VALUE_OPTIONAL, 'Cualquier código de país (cca2, cca3 o ccn3)');
+                'usa el parámetro "all" como valor para el parámetro "name".')
+            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'Nombre del país o "todo"')
+            ->addOption('code', null, InputOption::VALUE_OPTIONAL, 'Cualquier código de país (cca2, cca3 o ccn3)');
     }
     // TODO: Implementar manejo de errores
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        $countryName = $input->getOption('nombre');
-        $countryCode = $input->getOption('codigo');
+        $countryName = $input->getOption('name');
+        $countryCode = $input->getOption('code');
 
         if ($countryName && $countryCode) {
-            $io->error('Especifica solo uno de los parámetros "nombre" o "codigo".');
+            $io->error('Especifica solo uno de los parámetros "name" o "code".');
             return Command::FAILURE;
         }
         if (!$countryName && !$countryCode) {
-            $io->error('Especifica uno de los parámetros "nombre" o "codigo".');
+            $io->error('Especifica uno de los parámetros "name" o "code".');
             return Command::FAILURE;
         }
 
@@ -73,17 +73,17 @@ class ImportCountryCommand extends Command
                 $io->error("No se pudo encontrar ningún país con el nombre: $countryName. Intenta con otros nombres.");
                 return Command::FAILURE;
             }
-
+            $countryRepository = $this->entityManager->getRepository(Country::class);
             foreach ($searchResults as $countryData) {
-                $country = $countryRepository->getCountryByName($countryName);
+                /*$country = $countryRepository->getCountryByName($countryName);
                 if ($country) {
                     $io->error('El país '.$country->getCountryName(). ' ya existe. Para volver a importarlo elimínalo ".
                         "primero desde el panel de administración.');
                 } else {
+                */
                     $io->info('Importando: '.$countryData['name']['common'] . "...");
-                }
-                $country = $this->countryManager->newCountryFromRestCountryData($countryData);
-                // }
+                    $country = $this->countryManager->newCountryFromRestCountryData($countryData);
+                    $this->entityManager->persist($country);
             }
         }
 

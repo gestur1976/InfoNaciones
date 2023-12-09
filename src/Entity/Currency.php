@@ -23,7 +23,7 @@ class Currency
     #[ORM\Column(length: 255)]
     private ?string $currencyName = null;
 
-    #[ORM\Column(length: 4)]
+    #[ORM\Column(length: 10, nullable: true)]
     private ?string $symbol = null;
 
     #[ORM\ManyToMany(targetEntity: Country::class, inversedBy: 'currencies')]
@@ -68,7 +68,7 @@ class Currency
         return $this->symbol;
     }
 
-    public function setSymbol(string $symbol): static
+    public function setSymbol(?string $symbol): static
     {
         $this->symbol = $symbol;
 

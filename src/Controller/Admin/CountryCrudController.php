@@ -6,6 +6,7 @@ use App\Entity\Country;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
@@ -26,8 +27,6 @@ class CountryCrudController extends AbstractCrudController
             yield IdField::new('id')->hideOnForm(),
             yield TextField::new('commonName', 'Nombre común'),
             yield TextField::new('officialName', 'Nombre oficial'),
-            yield TextField::new('nativeCommonName', 'Nombre común nativo'),
-            yield TextField::new('nativeOfficialName', 'Nombre oficial nativo'),
             yield TextField::new('cca2Id', 'Código CCA2'),
             yield NumberField::new('ccn3Id', 'Código ISO 3166-1 numérico'),
             yield TextField::new('cca3Id', 'Código ISO 3166-1 alfa-3'),
@@ -57,12 +56,11 @@ class CountryCrudController extends AbstractCrudController
             yield CollectionField::new('countryBorders', 'Países fronterizos (códigos ISO 3166-1 alfa-3)'),
             yield CollectionField::new('languages', 'Idiomas hablados'),
             yield CollectionField::new('altSpellings', 'Denominaciones Alternativas'),
-            yield CollectionField::new('translations', 'Denominaciones en otros idiomas'),
             yield CollectionField::new('maps', 'Mapas'),
             yield CollectionField::new('timeZones', 'Husos horarios'),
             yield CollectionField::new('continents', 'Continentes'),
-            yield CollectionField::new('dateCreated', 'Creado'),
-            yield CollectionField::new('dateModified', 'Última modificación'),
+            yield DateTimeField::new('dateCreated', 'Creado'),
+            yield DateTimeField::new('dateModified', 'Última modificación'),
         ];
     }
 }

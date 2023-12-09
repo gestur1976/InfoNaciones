@@ -37,13 +37,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
 
-    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Country::class)]
-    private Collection $countries;
-
-    public function __construct()
-    {
-        $this->countries = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -123,36 +116,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTitle(?string $title): static
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Country>
-     */
-    public function getCountries(): Collection
-    {
-        return $this->countries;
-    }
-
-    public function addCountry(Country $country): static
-    {
-        if (!$this->countries->contains($country)) {
-            $this->countries->add($country);
-            $country->setCreatedBy($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCountry(Country $country): static
-    {
-        if ($this->countries->removeElement($country)) {
-            // set the owning side to null (unless already changed)
-            if ($country->getCreatedBy() === $this) {
-                $country->setCreatedBy(null);
-            }
-        }
 
         return $this;
     }

@@ -43,7 +43,6 @@ class CountryType extends AbstractType
             ->add('flagVector')
             ->add('coatOfArmsImage')
             ->add('coatOfArmsVector')
-            ->add('nativeCommonName')
             ->add('nativeOfficialName')
             ->add('tld')
             ->add('currencies', EntityType::class, [

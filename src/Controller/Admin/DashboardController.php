@@ -62,6 +62,11 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Listado', 'fas fa-list', Country::class),
             MenuItem::linkToCrud('Añadir', 'fas fa-plus', Country::class)->setAction(Crud::PAGE_NEW),
         ]);
+        yield MenuItem::subMenu('Mapas', 'fas fa-globe-americas')->setSubItems([
+            MenuItem::linkToCrud('Listado', 'fas fa-list', Map::class),
+            MenuItem::linkToCrud('Añadir', 'fas fa-plus', Map::class)->setAction(Crud::PAGE_NEW),
+        ]);
+        yield MenuItem::subMenu('Usuarios', 'fas fa-user')->set
         /*
         // We add another item to the "Administration" menu and sub menu items
         yield MenuItem::subMenu('Continentes', 'fas fa-earth-americas')->setSubItems([
