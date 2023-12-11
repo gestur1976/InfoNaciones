@@ -54,7 +54,6 @@ Antes de clonar el proyecto, asegúrate de tener instalados:
    4. **Abre tu navegador y usa las siguientes URLs para consultar cada apartado (no he tenido para preparar las redirecciones
    y poner en orden las rutas debido a problema de incompatibilidad de Symfony 7 con la mayor parte de módulos de Packagist.
 
-   http://localhost:8000/
    http://localhost:8000/register
    http://localhost:8000/login
    http://localhost:8000/admin
